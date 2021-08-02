@@ -1,0 +1,81 @@
+.html{
+    font-size: 62.5%;
+}
+
+body{
+    overflow-x: hidden;
+}
+
+
+
+/* header section */
+.header nav{
+    background: #333;
+    color: white;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.header nav .logo{
+    color: rgb(220, 243, 9);
+    font-size: 1.5rem;
+}
+
+.header nav .cart{
+    position: relative;
+}
+
+.header nav .cart .quantity{
+    position: absolute;
+    top: .2rem;
+    right: -.8rem;
+}
+
+
+/* content section */
+.box-container{
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.box-container .box{
+    width: 15rem;
+    margin: .5rem;
+    border: .1rem solid rgba(0,0,0,0.1);
+    border-radius: .5rem;
+}
+
+.box-container .box .image img{
+    width: 100%;
+}
+
+.box-container .box .info h3{
+    margin-bottom: .3rem;
+}
+
+.box-container .box .info .stars i{
+    color: orange;
+}
+
+.box-container .box .info .row{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: .5rem;
+}
+
+.box-container .box .info .row .btn{
+    margin: .3rem;
+    height: 2rem;
+}
+
+.box-container .box .info .row .price {
+    font-weight: bold;
+}
+
+
+
