@@ -3,18 +3,28 @@ import PropTypes from 'prop-types';
 
 Body.propTypes = {
     product: PropTypes.array,
+    onClick: PropTypes.func
 };
 
 Body.defaultsProps = {
     product: null,
+    onClick: null
 };
 function Body(props) {
-    const {products} = props;
+    const {products, onClick} = props;
+
+    function addToCart(product, event){
+        onClick(product, event.target);
+        var target = event.target;
+        target.innerHTML = "In Cart";
+        target.disabled = true;
+        
+    }
     
     return (
         <div className="box-container">
             {products !== null && products.map((product) =>{
-                return <div className="box">
+                return <div className="box" key={product.id}>
 
                     <div class="image">
                         <img src={product.image}  alt=""/>
@@ -30,7 +40,7 @@ function Body(props) {
                         </div>
                         <div className="row">
                             <div class="button">
-                                <button className="btn">Add to Cart</button>
+                                <button className="btn" onClick={(event) => addToCart(product,event)}>Add to Cart</button>
                                 <button className="btn">View</button>
                             </div>
                             <p className="price">${product.price}</p>

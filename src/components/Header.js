@@ -1,6 +1,20 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function Header() {
+Header.propTypes = {
+    showCart: PropTypes.func,
+};
+
+Header.defaultsProps = {
+    showCart: null,
+};
+
+function Header(props) {
+    const {showCart} = props;
+
+    function showCartModal(){
+        showCart();
+    }
     return (
         <div className="header">
            <nav>
@@ -8,7 +22,7 @@ function Header() {
                    <p>ShopCart</p>
                </div>
                <div className="cart">
-                   <p>Cart <i className="fas fa-shopping-cart"></i></p>
+                   <p onClick={()=>showCartModal()}>Cart <i className="fas fa-shopping-cart"></i></p>
                    <span className="quantity">0</span>
                </div>
            </nav>
