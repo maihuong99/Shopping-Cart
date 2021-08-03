@@ -14,7 +14,7 @@ Modal.defaultProps = {
 };
 
 function Modal(props) {
-    const {hideModal, items, minus, add, clear} = props;
+    const {hideModal, items, minus, add, clear, deleteProduct} = props;
     const [price, setPrice] = useState('');
 
 
@@ -48,6 +48,10 @@ function Modal(props) {
         clear();
     }
 
+    function deleteItem(index,id){
+        deleteProduct(index,id);
+    }
+
     
     return (
         <div className="modal">
@@ -59,7 +63,7 @@ function Modal(props) {
                 <div class="modal-body">
                     <table>
                         {items !== null && items.map((item,index) =>{
-                            return <tr>
+                            return <tr key={index}>
                                 <td>
                                     <img alt="" src={item.image}/>
                                 </td>
@@ -75,7 +79,7 @@ function Modal(props) {
                                     <button onClick={(event)=>{addItem(event,index)}}>+</button>
                                 </td>
                                 <td>
-                                    <i className="fas fa-trash"></i>
+                                    <i className="fas fa-trash" onClick={()=>deleteItem(index, item.id)}></i>
                                 </td>
                             </tr>
 

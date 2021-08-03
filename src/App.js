@@ -11,9 +11,10 @@ function App() {
 
   const [products, setProducts] = useState([]);
   const [items, setItems] =useState([]);
-  function getProduct(){
+
+  async function getProduct(){
     setProducts(data.items);
-    var item =localStorage.getItem('cart');
+    var item =localStorage.getItem('bakeCart');
     if(item !== null){
       setItems(JSON.parse(item));
     }
@@ -21,35 +22,35 @@ function App() {
 
   function addToCart(product){
     product.number = 1;
-    var productsInCart = localStorage.getItem('cart');
+    var productsInCart = localStorage.getItem('bakeCart');
 
     if(productsInCart === null){
       productsInCart = [];
       productsInCart.push(product);
-      localStorage.setItem('cart', JSON.stringify(productsInCart));
+      localStorage.setItem('bakeCart', JSON.stringify(productsInCart));
       setItems(productsInCart);
     }else{
       var products = [];
       products = JSON.parse(productsInCart);
       products.push(product);
-      localStorage.setItem('cart', JSON.stringify(products));
+      localStorage.setItem('bakeCart', JSON.stringify(products));
       setItems(products);
     }
 
   }
   function minus(index){
-    var item =localStorage.getItem('cart');
+    var item =localStorage.getItem('bakeCart');
     var items = JSON.parse(item);
     items[index].number -= 1;
-    localStorage.setItem('cart', JSON.stringify(items));
+    localStorage.setItem('bakeCart', JSON.stringify(items));
     setItems(items)
   }
 
   function add(index){
-    var item =localStorage.getItem('cart');
+    var item =localStorage.getItem('bakeCart');
     var items = JSON.parse(item);
     items[index].number += 1;
-    localStorage.setItem('cart', JSON.stringify(items));
+    localStorage.setItem('bakeCart', JSON.stringify(items));
     setItems(items)
   }
 
@@ -66,10 +67,41 @@ function App() {
   function clearProduct(){
     localStorage.clear();
     setItems([]);
+    for(var i=0; i<products.length; i++){
+      var target = document.querySelectorAll(".box-container .box")[i]
+      var button = target.querySelector(".info .row .btn");
+      button.innerHTML = "Add to Cart"
+      button.disabled = false;
+    }
+  }
+
+  function deleteProduct(index, id){
+    var array = localStorage.getItem("bakeCart");
+    array = JSON.parse(array);
+    array.splice(index,1);
+    localStorage.setItem('bakeCart', JSON.stringify(array));
+    var item = localStorage.getItem('bakeCart');
+    setItems(JSON.parse(item))
+    console.log(item);
+    console.log(id);
+    for(var i=0; i<products.length; i++){
+      if(products[i].id === id){
+        var target = document.querySelectorAll(".box-container .box")[i]
+        var button = target.querySelector(".info .row .btn");
+        button.innerHTML = "Add to Cart"
+        button.disabled = false;
+        continue;
+      }
+      
+    }
   }
 
   useEffect(function(){
     getProduct();
+    
+  },[products]);
+
+  useEffect(function(){
     if(items === null){
       document.querySelector(".header nav .cart .quantity").innerHTML = 0;
     }else{
@@ -93,15 +125,17 @@ function App() {
         }
       }
     }
-    
-  },[products,items]);
+
+  },[items])
+
+  
 
 
   return (
     <div className="App">
       <Header showCart ={showCart}/>
       <Body products ={products} onClick = {addToCart}/>
-      <Modal hideModal={hideModal} items ={items} minus ={minus} add ={add} clear ={clearProduct}/>
+      <Modal hideModal={hideModal} items ={items} minus ={minus} add ={add} clear ={clearProduct} deleteProduct ={deleteProduct}/>
     </div>
   );
 }
